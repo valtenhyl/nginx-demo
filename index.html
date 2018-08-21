@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table, th, td {
+            border: 1px solid darkcyan;
+            background-color: aliceblue;
+            border-collapse:collapse;
+            padding:15px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <th>主键</th>
+            <th>评论内容</th>
+            <th>人员ID</th>
+            <th>标题</th>
+            <th>作者</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>',item.,'</td>
+                <td>',item.,'</td>
+                <td>',item.,'</td>
+                <td>',item.,'</td>
+                <td>',item.,'</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+<script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+    $.ajax({
+        type: 'get',
+        url: '/comments?_expand=post&id_lte=1005',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            var htmlArr = [];
+            $.each(data,function(index,item){
+                htmlArr.push('<tr>\n' +
+                    '            <td>',item.id,'</td>\n' +
+                    '            <td>',item.body,'</td>\n' +
+                    '            <td>',item.postId,'</td>\n' +
+                    '            <td>',item.post.title,'</td>\n' +
+                    '            <td>',item.post.author,'</td>\n' +
+                    '        </tr>');
+            });
+            console.log(htmlArr);
+            $("tbody").html(htmlArr.join(''));
+        }
+    })
+</script>
+</html>
